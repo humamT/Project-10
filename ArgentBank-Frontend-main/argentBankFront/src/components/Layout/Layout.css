@@ -1,0 +1,15 @@
+.Layout{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    margin: 0;
+}
+
+@media all and (max-width: 500px) {
+
+    .Layout{
+        width: 375px;
+    }
+
+}

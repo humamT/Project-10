@@ -1,0 +1,35 @@
+/* header.css */
+
+.header {
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-nav-logo img {
+    max-width: 100%;
+    width: 200px;
+}
+
+.header-nav a {
+    color: #2c3e50;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.header-nav a:hover {
+    text-decoration: underline;
+}
