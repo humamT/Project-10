@@ -1,12 +1,14 @@
-const Index = function () {
-    return <>index</>
-    {
-        <div className="Apropos">
-        <Banner_Apropos />
-        <Drop_Down />
+import './index.css'
+import Hero from '../components/Hero/hero'
+import Features from '../components/features/features'
 
-    </div>
-    }
+const Index = function () {
+    return (
+        <div className='index'>
+        <Hero/>
+        <Features/>
+        </div>
+    )
 }
 
 export default Index
