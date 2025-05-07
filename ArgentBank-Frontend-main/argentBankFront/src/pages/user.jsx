@@ -6,23 +6,55 @@ const User = function () {
     const [userName, setUserName] = useState('');
 
     useEffect(() => {
-        // Fetch user and account data from backend
-        const fetchData = async () => {
+        const fetchUserProfile = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                console.error("No token found, redirect to login.");
+                return;
+            }
+
             try {
-                const userResponse = await fetch('/api/user'); // Replace with actual API endpoint
-                const userData = await userResponse.json();
+                const response = await fetch("http://localhost:3001/api/v1/user/profile", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
 
-                const accountsResponse = await fetch('/api/accounts'); // Replace with actual API endpoint
-                const accountsData = await accountsResponse.json();
+                const data = await response.json();
 
-                setUserName(userData.name);
-                setAccounts(accountsData.accounts);
+                if (response.ok) {
+                    const { firstName, lastName } = data.body;
+                    setUserName(`${firstName} ${lastName}`);
+
+                    // Dummy account data for testing
+                    setAccounts([
+                        {
+                            title: 'Checking Account (x8349)',
+                            amount: 2082.79,
+                            description: 'Available balance',
+                        },
+                        {
+                            title: 'Savings Account (x6712)',
+                            amount: 10928.42,
+                            description: 'Available balance',
+                        },
+                        {
+                            title: 'Credit Card (x8349)',
+                            amount: 184.30,
+                            description: 'Current balance',
+                        },
+                    ]);
+                } else {
+                    console.error("Profile fetch failed:", data.message);
+                }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error("Error fetching user profile:", error);
             }
         };
 
-        fetchData();
+        fetchUserProfile();
     }, []);
 
     return (
