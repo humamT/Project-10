@@ -8,22 +8,29 @@ body {
 }
 
 .main {
-    max-width: 800px;
-    margin: 50px auto;
-    background-color: #fff;
-    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    background-color: #12002D;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
 }
 
-.header {
+.user-header {
     text-align: center;
-    margin-bottom: 20px;
 }
 
-.header h1 {
-    font-size: 24px;
-    color: #333;
+.user-header h1 {
+    font-size: 2em;
+    color: white;
+}
+
+.edit-button {
+    border-color: #00bc77;
+    background-color: #00bc77;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
 }
 
 .user-info {
@@ -47,33 +54,52 @@ body {
 
 .account {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    background-color: #fafafa;
+    border: 1px solid black;
+    background-color: #fff;
+    width: 80%;
+    margin: 0 auto;
+    padding: 1.5rem;
+    box-sizing: border-box;
+    text-align: left;
+    margin-bottom: 2rem;
 }
 
-.account h3 {
-    font-size: 18px;
-    color: #333;
+.account-content-wrapper {
+    width: 100%;
+    flex: 1;
 }
 
-.account p {
-    font-size: 14px;
-    color: #666;
+.account-title {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.account-amount {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.account-amount-description {
+    margin: 0;
+}
+
+.account-content-wrapper.cta {
+    flex: 0;
+    width: 100%;
 }
 
 .account button {
-    background-color: #00bfff;
+    border-color: #00bc77;
+    background-color: #00bc77;
     color: #fff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
+    font-weight: bold;
+    padding: 10px;
 }
 
 .account button:hover {

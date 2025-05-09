@@ -1,14 +1,15 @@
-import './index.css'
-import Hero from '../components/Hero/hero'
-import Features from '../components/features/features'
+import './index.css';
+import React from 'react';
+import Hero from '../components/Hero/hero';
+import Features from '../components/Features/features';
 
-const Index = function () {
-    return (
-        <div className='index'>
-        <Hero/>
-        <Features/>
-        </div>
-    )
-}
+const Index = () => {
+  return (
+    <div className="index">
+      <Hero />
+      <Features />
+    </div>
+  );
+};
 
-export default Index
+export default Index;

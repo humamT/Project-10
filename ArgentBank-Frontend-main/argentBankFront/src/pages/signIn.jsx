@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import './signIn.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setToken } from '../features/user/userSlice';
 
 const SignIn = function () {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState(null);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,6 +30,7 @@ const SignIn = function () {
             if (response.ok) {
                 const token = data.body.token;
                 localStorage.setItem("token", token);
+                dispatch(setToken(token));
                 navigate("/user");
             } else {
                 setError(data.message || "Login failed");

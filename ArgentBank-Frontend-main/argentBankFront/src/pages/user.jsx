@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './user.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProfile } from '../features/user/userSlice';
 
 const User = function () {
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.user.token);
+
     const [accounts, setAccounts] = useState([]);
     const [userName, setUserName] = useState('');
 
     useEffect(() => {
         const fetchUserProfile = async () => {
-            const token = localStorage.getItem("token");
             if (!token) {
                 console.error("No token found, redirect to login.");
                 return;
@@ -27,6 +31,7 @@ const User = function () {
                 if (response.ok) {
                     const { firstName, lastName } = data.body;
                     setUserName(`${firstName} ${lastName}`);
+                    dispatch(setProfile(data.body));
 
                     // Dummy account data for testing
                     setAccounts([
@@ -55,11 +60,11 @@ const User = function () {
         };
 
         fetchUserProfile();
-    }, []);
+    }, [token, dispatch]);
 
     return (
         <main className="main bg-dark">
-            <div className="header">
+            <div className="user-header">
                 <h1>Welcome back<br />{userName}!</h1>
                 <button className="edit-button">Edit Name</button>
             </div>
