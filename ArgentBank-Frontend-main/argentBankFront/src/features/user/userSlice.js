@@ -10,9 +10,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setToken: (state, action) => {
+      console.log('Setting token:', action.payload);
       state.token = action.payload;
     },
     setProfile: (state, action) => {
+      console.log('Setting profile:', action.payload);
       state.profile = action.payload;
     },
     logout: (state) => {

@@ -1,22 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import './user.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setProfile } from '../features/user/userSlice';
+import { useNavigate } from 'react-router-dom';
+import { setProfile, setToken } from '../features/user/userSlice';
 
 const User = function () {
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.user.token);
+    const navigate = useNavigate();
+    const tokenFromRedux = useSelector((state) => state.user.token);
+    const token = tokenFromRedux || localStorage.getItem('token');
 
     const [accounts, setAccounts] = useState([]);
     const [userName, setUserName] = useState('');
 
     useEffect(() => {
-        const fetchUserProfile = async () => {
-            if (!token) {
-                console.error("No token found, redirect to login.");
-                return;
-            }
+        // If token is found in localStorage but not in Redux, dispatch it to Redux
+        if (!tokenFromRedux && localStorage.getItem('token')) {
+            dispatch(setToken(localStorage.getItem('token')));
+        }
 
+        // Redirect to index page if no token is found
+        if (!token) {
+            navigate('/');
+            return;
+        }
+
+        const fetchUserProfile = async () => {
             try {
                 const response = await fetch("http://localhost:3001/api/v1/user/profile", {
                     method: "POST",
@@ -60,7 +69,7 @@ const User = function () {
         };
 
         fetchUserProfile();
-    }, [token, dispatch]);
+    }, [token, tokenFromRedux, dispatch, navigate]);
 
     return (
         <main className="main bg-dark">
