@@ -22,6 +22,59 @@
     width: 200px;
 }
 
+.header-nav-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.header-username {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.username {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #2c3e50;
+    gap: 0.3rem;
+}
+
+.logout {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.logout:hover {
+    color: #00bc77;
+}
+.header-nav-item {
+    background: none;
+    border: none;
+    color: #2c3e50;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.header-nav-item:hover {
+    text-decoration: underline;
+    color: #00bc77;
+}
+
 .header-nav a {
     color: #2c3e50;
     font-weight: bold;
