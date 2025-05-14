@@ -28,11 +28,15 @@ const Header = () => {
                 <div className="header-nav-right">
                     {token ? (
                         <div className="header-user-info">
+                            <div className='username'>
                             <FontAwesomeIcon icon={faCircleUser} />
                             <span className="header-username">{profile?.firstName}</span>
+                            </div>
+                            <div className='logout'>
                             <button onClick={handleLogout} className="header-nav-item">
                                 Sign Out
                             </button>
+                            </div>
                         </div>
                     ) : (
                         <NavLink to="/signin" className="header-nav-item">

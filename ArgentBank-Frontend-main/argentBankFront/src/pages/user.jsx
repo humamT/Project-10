@@ -3,6 +3,7 @@ import './user.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setProfile, setToken } from '../features/user/userSlice';
+import { usersAccounts } from '../data/accountData'; // Import mock data
 
 const User = function () {
     const dispatch = useDispatch();
