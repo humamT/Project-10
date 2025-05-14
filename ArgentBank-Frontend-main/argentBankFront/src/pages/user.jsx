@@ -3,7 +3,6 @@ import './user.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setProfile, setToken } from '../features/user/userSlice';
-import { usersAccounts } from '../data/accountData'; // Import mock data
 
 const User = function () {
     const dispatch = useDispatch();
@@ -15,17 +14,14 @@ const User = function () {
     const [userName, setUserName] = useState('');
 
     useEffect(() => {
-        // If token is found in localStorage but not in Redux, dispatch it to Redux
         if (!tokenFromRedux && localStorage.getItem('token')) {
             dispatch(setToken(localStorage.getItem('token')));
         }
 
-        // Redirect to index page if no token is found
         if (!token) {
             navigate('/');
             return;
         }
-
         const fetchUserProfile = async () => {
             try {
                 const response = await fetch("http://localhost:3001/api/v1/user/profile", {
@@ -39,28 +35,21 @@ const User = function () {
                 const data = await response.json();
 
                 if (response.ok) {
-                    const { firstName, lastName } = data.body;
-                    setUserName(`${firstName} ${lastName}`);
+                    const { firstName, lastName, accounts } = data.body;
+                    const fullName = `${firstName} ${lastName}`;
+                    setUserName(fullName);
                     dispatch(setProfile(data.body));
 
-                    // Dummy account data for testing
-                    setAccounts([
-                        {
-                            title: 'Checking Account (x8349)',
-                            amount: 2082.79,
-                            description: 'Available balance',
-                        },
-                        {
-                            title: 'Savings Account (x6712)',
-                            amount: 10928.42,
-                            description: 'Available balance',
-                        },
-                        {
-                            title: 'Credit Card (x8349)',
-                            amount: 184.30,
-                            description: 'Current balance',
-                        },
-                    ]);
+                    if (accounts && Array.isArray(accounts)) {
+                        const formattedAccounts = accounts.map(acc => ({
+                            title: acc.accountType || acc.title || acc.name,
+                            amount: acc.balance || acc.amount || parseFloat(acc.solde?.replace(/,/g, '') || 0),
+                            description: acc.balanceType || acc.description || acc.balance,
+                        }));
+                        setAccounts(formattedAccounts);
+                    } else {
+                        setAccounts([]);
+                    }
                 } else {
                     console.error("Profile fetch failed:", data.message);
                 }
@@ -83,7 +72,7 @@ const User = function () {
                 <section className="account" key={index}>
                     <div className="account-content-wrapper">
                         <h3 className="account-title">{account.title}</h3>
-                        <p className="account-amount">${account.amount.toFixed(2)}</p>
+                        <p className="account-amount">${account.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
                         <p className="account-amount-description">{account.description}</p>
                     </div>
                     <div className="account-content-wrapper cta">
