@@ -3,6 +3,8 @@ import './user.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setProfile, setToken } from '../features/user/userSlice';
+import Edit from '../components/Edit/Edit';
+import UserName from '../components/UserName/Username.jsx';
 
 const User = function () {
     const dispatch = useDispatch();
@@ -12,6 +14,10 @@ const User = function () {
 
     const [accounts, setAccounts] = useState([]);
     const [userName, setUserName] = useState('');
+
+    const [showEdit, setShowEdit] = useState(false);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
 
     useEffect(() => {
         if (!tokenFromRedux && localStorage.getItem('token')) {
@@ -35,9 +41,10 @@ const User = function () {
                 const data = await response.json();
 
                 if (response.ok) {
-                    const { firstName, lastName, accounts } = data.body;
-                    const fullName = `${firstName} ${lastName}`;
-                    setUserName(fullName);
+                    const { firstName, lastName, userName, accounts } = data.body;
+                    setFirstName(firstName);
+                    setLastName(lastName);
+                    setUserName(userName || `${firstName} ${lastName}`);
                     dispatch(setProfile(data.body));
 
                     if (accounts && Array.isArray(accounts)) {
@@ -64,22 +71,35 @@ const User = function () {
     return (
         <main className="main bg-dark">
             <div className="user-header">
-                <h1>Welcome back<br />{userName}!</h1>
-                <button className="edit-button">Edit Name</button>
+                <div className="user-header">
+                    <h1>Welcome back<br />{userName}</h1>
+                    <button className="edit-button" onClick={() => setShowEdit(true)}>Edit Name</button>
+                </div>
+                <Edit
+                    open={showEdit}
+                    onClose={() => setShowEdit(false)}
+                    token={token}
+                    firstName={firstName}
+                    lastName={lastName}
+                    userName={userName}
+                    setUserName={setUserName}
+                />
             </div>
             <h2 className="sr-only">Accounts</h2>
-            {accounts.map((account, index) => (
-                <section className="account" key={index}>
-                    <div className="account-content-wrapper">
-                        <h3 className="account-title">{account.title}</h3>
-                        <p className="account-amount">${account.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
-                        <p className="account-amount-description">{account.description}</p>
-                    </div>
-                    <div className="account-content-wrapper cta">
-                        <button className="transaction-button">View transactions</button>
-                    </div>
-                </section>
-            ))}
+            <div className="account-content-wrapper">
+                {accounts.map((account, index) => (
+                    <section className="account" key={index}>
+                        <div className="account-content-wrapper">
+                            <h3 className="account-title">{account.title}</h3>
+                            <p className="account-amount">${account.amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+                            <p className="account-amount-description">{account.description}</p>
+                        </div>
+                        <div className="account-content-wrapper cta">
+                            <button className="transaction-button">View transactions</button>
+                        </div>
+                    </section>
+                ))}
+            </div>
         </main>
     );
 };
