@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setProfile, setToken } from '../features/user/userSlice';
 import Edit from '../components/Edit/Edit';
-import UserName from '../components/UserName/Username.jsx';
 
 const User = function () {
     const dispatch = useDispatch();
@@ -71,10 +70,8 @@ const User = function () {
     return (
         <main className="main bg-dark">
             <div className="user-header">
-                <div className="user-header">
-                    <h1>Welcome back<br />{userName}</h1>
-                    <button className="edit-button" onClick={() => setShowEdit(true)}>Edit Name</button>
-                </div>
+                <h1>Welcome back<br />{userName}</h1>
+                <button className="edit-button" onClick={() => setShowEdit(true)}>Edit Name</button>
                 <Edit
                     open={showEdit}
                     onClose={() => setShowEdit(false)}
